@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Vector;
-$Math::Shape::Vector::VERSION = '0.01';
+$Math::Shape::Vector::VERSION = '0.02';
 use 5.008;
 use Carp;
 
@@ -81,7 +81,21 @@ Math::Shape::Vector - A 2d vector object in cartesian space
 
 =head1 VERSION
 
-version 0.01
+version 0.02
+
+=head1 SYNOPSIS
+
+    use Math::Shape::Vector;
+
+    my $v1 = Math::Shape::Vector->new(3, 5);
+    my $v2 = Math::Shape::Vector->new(1, 17);
+
+    $v1->add_vector($v2);
+    $v1->negate;
+    $v1->multiply(5);
+    $v1->is_equal($v2);
+
+=for HTML <a href="https://travis-ci.org/sillymoose/Math-Shape-Vector"><img src="https://travis-ci.org/sillymoose/Math-Shape-Vector.svg?branch=master"></a> <a href='https://coveralls.io/r/sillymoose/Math-Shape-Vector'><img src='https://coveralls.io/repos/sillymoose/Math-Shape-Vector/badge.png' alt='Coverage Status' /></a>
 
 =head1 METHODS
 
@@ -127,7 +141,7 @@ Divides the vector's x and y values by a number.
 
     $vector->divide(2);
 
-=head1 RESPOSITORY
+=head1 REPOSITORY
 
 L<https://github.com/sillymoose/Math-Shape-Vector.git>
 

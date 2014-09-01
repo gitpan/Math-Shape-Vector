@@ -1,4 +1,7 @@
 Change history for Math::Shape::Vector
 
+0.02    2014/09/01
+        -Updated POD
+
 0.01    2014/09/01
         -Initial build
