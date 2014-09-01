@@ -70,4 +70,10 @@ is $v11->{x}, 1, 'x is now 1';
 is $v11->{y}, 1, 'y is now 1';
 dies_ok sub { $v11->divide(1,3) }, 'divide wrong args';
 
+# get_length
+ok my $v12 = Math::Shape::Vector->new(5, 5);
+ok my $v13 = Math::Shape::Vector->new(7, 3);
+is sprintf( "%.3f", $v12->get_length), 7.071;
+is sprintf( "%.3f", $v13->get_length), 7.616;
+
 done_testing();

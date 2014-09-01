@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Vector;
-$Math::Shape::Vector::VERSION = '0.02';
+$Math::Shape::Vector::VERSION = '0.03';
 use 5.008;
 use Carp;
 
@@ -67,6 +67,12 @@ sub divide {
 }
 
 
+sub get_length {
+    my $self = shift;
+    sqrt $self->{x} ** 2 + $self->{y} ** 2
+}
+
+
 1;
 
 __END__
@@ -81,7 +87,7 @@ Math::Shape::Vector - A 2d vector object in cartesian space
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 SYNOPSIS
 
@@ -140,6 +146,10 @@ Multiplies the vector's x and y values by a number.
 Divides the vector's x and y values by a number.
 
     $vector->divide(2);
+
+=head2 get_length
+
+Returns the vector length.
 
 =head1 REPOSITORY
 
