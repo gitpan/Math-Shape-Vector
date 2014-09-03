@@ -3,6 +3,7 @@ use warnings;
 use Test::More;
 use Test::Exception;
 use Math::Shape::Point 1.05;
+use Math::Trig ':pi';
 
 BEGIN { use_ok 'Math::Shape::Vector', 'import module' };
 
@@ -73,7 +74,47 @@ dies_ok sub { $v11->divide(1,3) }, 'divide wrong args';
 # get_length
 ok my $v12 = Math::Shape::Vector->new(5, 5);
 ok my $v13 = Math::Shape::Vector->new(7, 3);
+ok my $v14 = Math::Shape::Vector->new(0, 0);
 is sprintf( "%.3f", $v12->get_length), 7.071;
 is sprintf( "%.3f", $v13->get_length), 7.616;
+is $v14->get_length, 0, 'null vector length is zero';
+
+# convert to unit vector
+ok my $v15 = Math::Shape::Vector->new(5, 5);
+ok my $v16 = Math::Shape::Vector->new(7, 3);
+ok my $v17 = Math::Shape::Vector->new(0, 0);
+ok $v15->convert_to_unit_vector;
+ok $v16->convert_to_unit_vector;
+ok $v17->convert_to_unit_vector;
+is $v15->get_length, 1;
+is $v16->get_length, 1;
+is $v17->get_length, 0;
+
+# rotate
+ok my $v18 = Math::Shape::Vector->new(5, 5);
+ok my $v19 = Math::Shape::Vector->new(7, 3);
+ok my $v20 = Math::Shape::Vector->new(0, 0);
+ok $v18->rotate(pi);
+ok $v19->rotate(pi2);
+ok $v20->rotate(0);
+is $v18->{x}, -5;
+is $v19->{x}, 7;
+is $v20->{x}, 0;
+
+# get_dot_product
+ok my $v21 = Math::Shape::Vector->new(8, 2);
+ok my $v22 = Math::Shape::Vector->new(-2, 8);
+ok my $v23 = Math::Shape::Vector->new(-5, 5);
+   # this is the dot product formula
+is $v21->{x} * $v22->{x} + $v21->{y} * $v22->{y}, $v21->get_dot_product($v22);
+is $v22->{x} * $v23->{x} + $v22->{y} * $v23->{y}, $v22->get_dot_product($v23);
+is $v23->{x} * $v21->{x} + $v23->{y} * $v21->{y}, $v23->get_dot_product($v21);
+
+# project
+ok my $v24 = Math::Shape::Vector->new(8, 2);
+ok my $v25 = Math::Shape::Vector->new(-2, 8);
+ok my $v26 = Math::Shape::Vector->new(-2, 8);
+is $v24->project($v25)->{x}, 8;
+is $v25->project($v26)->{x}, 0;
 
 done_testing();

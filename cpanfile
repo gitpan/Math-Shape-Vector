@@ -5,6 +5,7 @@ requires "warnings" => "0";
 
 on 'test' => sub {
   requires "Math::Shape::Point" => "1.05";
+  requires "Math::Trig" => "0";
   requires "Test::Exception" => "0";
   requires "Test::More" => "0";
 };

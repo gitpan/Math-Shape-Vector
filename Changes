@@ -1,5 +1,8 @@
 Change history for Math::Shape::Vector
 
+0.04    2014/09/02
+        -Added get_dot_product(), project(), rotate(), convert_to_unit_vector()
+
 0.03    2014/09/01
         -Added get_length()
 

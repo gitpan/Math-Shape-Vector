@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Vector;
-$Math::Shape::Vector::VERSION = '0.03';
+$Math::Shape::Vector::VERSION = '0.04';
 use 5.008;
 use Carp;
 
@@ -20,7 +20,7 @@ sub add_vector {
     my ($self, $v2) = @_;
     $self->{x} += $v2->{x};
     $self->{y} += $v2->{y};
-    1;
+    $self;
 }
 
 
@@ -29,7 +29,7 @@ sub subtract_vector {
     my ($self, $v2) = @_;
     $self->{x} -= $v2->{x};
     $self->{y} -= $v2->{y};
-    1;
+    $self;
 }
 
 
@@ -37,7 +37,7 @@ sub negate {
     my $self = shift;
     $self->{x} = - $self->{x};
     $self->{y} = - $self->{y};
-    1;
+    $self;
 }
 
 
@@ -54,23 +54,68 @@ sub multiply {
     my ($self, $multiplier) = @_;
     $self->{x} = $self->{x} * $multiplier;
     $self->{y} = $self->{y} * $multiplier;
-    1;
+    $self;
 }
 
 
 sub divide {
     croak 'incorrect number of args' unless @_ == 2;
     my ($self, $divisor) = @_;
-    $self->{x} = $self->{x} / $divisor;
-    $self->{y} = $self->{y} / $divisor;
-    1;
+    # avoid division by zero
+    $self->{x} = $divisor ? $self->{x} / $divisor : 0;
+    $self->{y} = $divisor ? $self->{y} / $divisor : 0;
+    $self;
+}
+
+
+sub rotate {
+    croak 'incorrect number of args' unless @_ == 2;
+    my ($self, $radians) = @_;
+
+    $self->{x} = $self->{x} * cos($radians) - $self->{y} * sin($radians);
+    $self->{y} = $self->{x} * sin($radians) + $self->{y} * cos($radians);
+    $self;
+}
+
+
+sub get_dot_product {
+    croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
+    my ($self, $v2) = @_;
+    $self->{x} * $v2->{x} + $self->{y} * $v2->{y};
 }
 
 
 sub get_length {
     my $self = shift;
-    sqrt $self->{x} ** 2 + $self->{y} ** 2
+    # avoid division by zero for null vectors
+    return 0 unless $self->{x} && $self->{y};
+    sqrt $self->{x} ** 2 + $self->{y} ** 2;
 }
+
+
+sub convert_to_unit_vector {
+    my $self = shift;
+
+    my $length = $self->get_length;
+    $length > 0 ? $self->divide($length) : 1;
+    $self;
+}
+
+
+sub project {
+    croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
+    my ($self, $v2) = @_;
+
+    my $d = $v2->get_dot_product($v2);
+    if ($d > 0) {
+        $v2->multiply( $self->get_dot_product($v2) / $d );
+    }
+    else {
+        $self = $v2;
+    }
+    $self;
+}
+
 
 
 1;
@@ -87,7 +132,7 @@ Math::Shape::Vector - A 2d vector object in cartesian space
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 
@@ -147,9 +192,35 @@ Divides the vector's x and y values by a number.
 
     $vector->divide(2);
 
+=head2 rotate
+
+Rotates the vector in radians.
+
+    use Math::Trig ':pi';
+
+    $vector->rotate(pi);
+
+=head2 get_dot_product
+
+Returns the dot product. Requires another Math::Shape::Vector object as an argument.
+
 =head2 get_length
 
 Returns the vector length.
+
+    $vector->get_length;
+
+=head2 convert_to_unit_vector
+
+Converts the vector to have a length of 1.
+
+    $vector->convert_to_unit_vector;
+
+=head2 project
+
+Maps the vector to another vector. Requires a Math::Shape::Vector object as an argument.
+
+    $vector->project($vector_2);
 
 =head1 REPOSITORY
 
