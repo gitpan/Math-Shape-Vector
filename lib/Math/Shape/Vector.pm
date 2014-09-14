@@ -1,9 +1,11 @@
 use strict;
 use warnings;
 package Math::Shape::Vector;
-$Math::Shape::Vector::VERSION = '0.04';
+$Math::Shape::Vector::VERSION = '0.05';
 use 5.008;
 use Carp;
+use Math::Shape::Utils;
+use Math::Trig;
 
 # ABSTRACT: A 2d vector object in cartesian space
 
@@ -78,14 +80,24 @@ sub rotate {
 }
 
 
-sub get_dot_product {
+sub rotate_90
+{
+    my $self = shift;
+    my $x = $self->{x};
+    $self->{x} = - $self->{y};
+    $self->{y} = $x;
+    $self;
+}
+
+
+sub dot_product {
     croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
     my ($self, $v2) = @_;
     $self->{x} * $v2->{x} + $self->{y} * $v2->{y};
 }
 
 
-sub get_length {
+sub length {
     my $self = shift;
     # avoid division by zero for null vectors
     return 0 unless $self->{x} && $self->{y};
@@ -96,7 +108,7 @@ sub get_length {
 sub convert_to_unit_vector {
     my $self = shift;
 
-    my $length = $self->get_length;
+    my $length = $self->length;
     $length > 0 ? $self->divide($length) : 1;
     $self;
 }
@@ -106,9 +118,9 @@ sub project {
     croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
     my ($self, $v2) = @_;
 
-    my $d = $v2->get_dot_product($v2);
+    my $d = $v2->dot_product($v2);
     if ($d > 0) {
-        $v2->multiply( $self->get_dot_product($v2) / $d );
+        $v2->multiply( $self->dot_product($v2) / $d );
     }
     else {
         $self = $v2;
@@ -116,6 +128,39 @@ sub project {
     $self;
 }
 
+
+sub is_parallel
+{
+    croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
+    my ($self, $v2) = @_;
+    my $vector_na = Math::Shape::Vector->new($self->{x}, $self->{y});
+    $vector_na->rotate_90;
+    equal_floats(0, $vector_na->dot_product($v2));
+}
+
+
+sub enclosed_angle
+{
+    croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
+    my ($self, $v2) = @_;
+
+    my $ua = $self;
+    $ua->unit_vector;
+
+    my $ub = $v2;
+    $ub->unit_vector;
+
+    acos( $ua->dot_product($ub) );
+}
+
+
+
+sub collides
+{
+    croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
+
+    $_[0]->{x} == $_[1]->{x} && $_[0]->{y} == $_[1]->{y} ? 1 : 0;
+}
 
 
 1;
@@ -132,7 +177,7 @@ Math::Shape::Vector - A 2d vector object in cartesian space
 
 =head1 VERSION
 
-version 0.04
+version 0.05
 
 =head1 SYNOPSIS
 
@@ -200,15 +245,19 @@ Rotates the vector in radians.
 
     $vector->rotate(pi);
 
-=head2 get_dot_product
+=head2 rotate_90
+
+Rotates the vector 90 degrees anti-clockwise
+
+=head2 dot_product
 
 Returns the dot product. Requires another Math::Shape::Vector object as an argument.
 
-=head2 get_length
+=head2 length
 
 Returns the vector length.
 
-    $vector->get_length;
+    $vector->length;
 
 =head2 convert_to_unit_vector
 
@@ -221,6 +270,33 @@ Converts the vector to have a length of 1.
 Maps the vector to another vector. Requires a Math::Shape::Vector object as an argument.
 
     $vector->project($vector_2);
+
+=head2 is_parallel
+
+Boolean method that returns 1 if the vector is parallel with another vector else returns zero. Requires a Math::Shape::Vector object as an argument.
+
+    my $v2 = Math::Shape::Vector(1, 2);
+
+    if ($v->is_parallel($v2))
+    {
+        # do something
+    }
+
+=head2 enclosed_angle
+
+Returns the enclosed angle of another vector. Requires a Math::Shape::Vector object as an argument.
+
+    my $v2 = Math::Shape::Vector(4, 2);
+    my $enclosed_angle = $v->enclosed_angle($v2);
+
+=head2 collides
+
+Boolean method that returns 1 if the vector collides with another vector or 0 if not. Requires a Math::Shape::Vector object as an argument
+
+    my $v1 = Math::Shape::Vector(4, 2);
+    my $v2 = Math::Shape::Vector(4, 2);
+
+    $v1->collides($v2); # 1
 
 =head1 REPOSITORY
 

@@ -29,6 +29,9 @@
       "runtime" : {
          "requires" : {
             "Carp" : "0",
+            "Exporter" : "0",
+            "Math::Trig" : "0",
+            "base" : "0",
             "perl" : "5.008",
             "strict" : "0",
             "warnings" : "0"
@@ -37,7 +40,6 @@
       "test" : {
          "requires" : {
             "Math::Shape::Point" : "1.05",
-            "Math::Trig" : "0",
             "Test::Exception" : "0",
             "Test::More" : "0"
          }
@@ -52,6 +54,6 @@
          "web" : "https://github.com/sillymoose/Math-Shape-Vector"
       }
    },
-   "version" : "0.04"
+   "version" : "0.05"
 }
 

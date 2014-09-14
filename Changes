@@ -1,5 +1,12 @@
 Change history for Math::Shape::Vector
 
+0.05    2014/09/13
+        -Added rotate_90(), enclosed_angle(), collides()
+        -Added Math::Shape::Utils
+        -Added Math::Shape::Line
+        -Added Math::Shape::LineSegment
+        -Renamed get_length() and get_dot_product(), removing 'get_'
+
 0.04    2014/09/02
         -Added get_dot_product(), project(), rotate(), convert_to_unit_vector()
 

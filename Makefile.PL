@@ -21,16 +21,18 @@ my %WriteMakefileArgs = (
   "NAME" => "Math::Shape::Vector",
   "PREREQ_PM" => {
     "Carp" => 0,
+    "Exporter" => 0,
+    "Math::Trig" => 0,
+    "base" => 0,
     "strict" => 0,
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
     "Math::Shape::Point" => "1.05",
-    "Math::Trig" => 0,
     "Test::Exception" => 0,
     "Test::More" => 0
   },
-  "VERSION" => "0.04",
+  "VERSION" => "0.05",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -39,10 +41,12 @@ my %WriteMakefileArgs = (
 
 my %FallbackPrereqs = (
   "Carp" => 0,
+  "Exporter" => 0,
   "Math::Shape::Point" => "1.05",
   "Math::Trig" => 0,
   "Test::Exception" => 0,
   "Test::More" => 0,
+  "base" => 0,
   "strict" => 0,
   "warnings" => 0
 );

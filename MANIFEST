@@ -7,7 +7,13 @@ META.yml
 Makefile.PL
 cpanfile
 dist.ini
+lib/Math/Shape/Line.pm
+lib/Math/Shape/LineSegment.pm
+lib/Math/Shape/Utils.pm
 lib/Math/Shape/Vector.pm
+t/Line.t
+t/LineSegment.t
+t/Utils.t
 t/Vector.t
 xt/release/eol.t
 xt/release/pod-coverage.t

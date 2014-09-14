@@ -71,13 +71,13 @@ is $v11->{x}, 1, 'x is now 1';
 is $v11->{y}, 1, 'y is now 1';
 dies_ok sub { $v11->divide(1,3) }, 'divide wrong args';
 
-# get_length
+# length
 ok my $v12 = Math::Shape::Vector->new(5, 5);
 ok my $v13 = Math::Shape::Vector->new(7, 3);
 ok my $v14 = Math::Shape::Vector->new(0, 0);
-is sprintf( "%.3f", $v12->get_length), 7.071;
-is sprintf( "%.3f", $v13->get_length), 7.616;
-is $v14->get_length, 0, 'null vector length is zero';
+is sprintf( "%.3f", $v12->length), 7.071;
+is sprintf( "%.3f", $v13->length), 7.616;
+is $v14->length, 0, 'null vector length is zero';
 
 # convert to unit vector
 ok my $v15 = Math::Shape::Vector->new(5, 5);
@@ -86,9 +86,9 @@ ok my $v17 = Math::Shape::Vector->new(0, 0);
 ok $v15->convert_to_unit_vector;
 ok $v16->convert_to_unit_vector;
 ok $v17->convert_to_unit_vector;
-is $v15->get_length, 1;
-is $v16->get_length, 1;
-is $v17->get_length, 0;
+is $v15->length, 1;
+is $v16->length, 1;
+is $v17->length, 0;
 
 # rotate
 ok my $v18 = Math::Shape::Vector->new(5, 5);
@@ -101,14 +101,14 @@ is $v18->{x}, -5;
 is $v19->{x}, 7;
 is $v20->{x}, 0;
 
-# get_dot_product
+# dot_product
 ok my $v21 = Math::Shape::Vector->new(8, 2);
 ok my $v22 = Math::Shape::Vector->new(-2, 8);
 ok my $v23 = Math::Shape::Vector->new(-5, 5);
    # this is the dot product formula
-is $v21->{x} * $v22->{x} + $v21->{y} * $v22->{y}, $v21->get_dot_product($v22);
-is $v22->{x} * $v23->{x} + $v22->{y} * $v23->{y}, $v22->get_dot_product($v23);
-is $v23->{x} * $v21->{x} + $v23->{y} * $v21->{y}, $v23->get_dot_product($v21);
+is $v21->{x} * $v22->{x} + $v21->{y} * $v22->{y}, $v21->dot_product($v22);
+is $v22->{x} * $v23->{x} + $v22->{y} * $v23->{y}, $v22->dot_product($v23);
+is $v23->{x} * $v21->{x} + $v23->{y} * $v21->{y}, $v23->dot_product($v21);
 
 # project
 ok my $v24 = Math::Shape::Vector->new(8, 2);
@@ -117,4 +117,19 @@ ok my $v26 = Math::Shape::Vector->new(-2, 8);
 is $v24->project($v25)->{x}, 8;
 is $v25->project($v26)->{x}, 0;
 
+# collides
+ok my $v27 = Math::Shape::Vector->new(8, 2);
+ok my $v28 = Math::Shape::Vector->new(-2, 8);
+ok my $v29 = Math::Shape::Vector->new(-2, 8);
+is $v27->collides($v28), 0;
+is $v28->collides($v29), 1;
+is $v29->collides($v27), 0;
+
+
+# enclosed angle
+# rotate_90
+ok my $v30 = Math::Shape::Vector->new(3, 8);
+ok $v30->rotate_90;
+is $v30->{x}, -8;
+is $v30->{y}, 3;
 done_testing();
