@@ -9,10 +9,12 @@ cpanfile
 dist.ini
 lib/Math/Shape/Line.pm
 lib/Math/Shape/LineSegment.pm
+lib/Math/Shape/Range.pm
 lib/Math/Shape/Utils.pm
 lib/Math/Shape/Vector.pm
 t/Line.t
 t/LineSegment.t
+t/Range.t
 t/Utils.t
 t/Vector.t
 xt/release/eol.t

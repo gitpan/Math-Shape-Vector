@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
+use Math::Shape::LineSegment;
 
 BEGIN { use_ok 'Math::Shape::Line' };
 
@@ -13,6 +14,11 @@ ok my $line3 = Math::Shape::Line->new(2, 4, 2, 1), 'constructor';
 is $line1->is_equivalent($line2), 0;
 is $line2->is_equivalent($line1), 0;
 is $line2->is_equivalent($line3), 0;
+
+# on_one_side
+my $segment = Math::Shape::LineSegment->new(1, 3, 4, 8);
+is $line1->on_one_side($segment), 1;
+is $line2->on_one_side($segment), 0;
 
 # collides
 is $line1->collides($line2), 1;

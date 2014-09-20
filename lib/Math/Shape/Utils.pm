@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Utils;
-$Math::Shape::Utils::VERSION = '0.05';
+$Math::Shape::Utils::VERSION = '0.06';
 use Math::Trig ':pi';
 
 # ABSTRACT: Utility methods used by the Math::Shape::Vector module
@@ -32,8 +32,6 @@ sub overlap
 sub equal_floats
 {
     my $threshold = 1.0 / 8192.0;
-    print "threshold: $threshold\n";
-    print "Difference: " . abs($_[0] - $_[1]) . "\n";
     abs($_[0] - $_[1]) < $threshold ? 1 : 0;
 }
 
@@ -61,7 +59,7 @@ Math::Shape::Utils - Utility methods used by the Math::Shape::Vector module
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 AUTHOR
 

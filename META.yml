@@ -1,5 +1,5 @@
 ---
-abstract: 'A 2d vector object in cartesian space'
+abstract: 'A 2d vector library in cartesian space'
 author:
   - 'David Farrell <sillymoos@cpan.org>'
 build_requires:
@@ -26,4 +26,4 @@ requires:
 resources:
   homepage: https://github.com/sillymoose/Math-Shape-Vector
   repository: https://github.com/sillymoose/Math-Shape-Vector.git
-version: '0.05'
+version: '0.06'

@@ -1,13 +1,13 @@
 use strict;
 use warnings;
 package Math::Shape::Vector;
-$Math::Shape::Vector::VERSION = '0.05';
+$Math::Shape::Vector::VERSION = '0.06';
 use 5.008;
 use Carp;
 use Math::Shape::Utils;
 use Math::Trig;
 
-# ABSTRACT: A 2d vector object in cartesian space
+# ABSTRACT: A 2d vector library in cartesian space
 
 
 sub new {
@@ -173,11 +173,11 @@ __END__
 
 =head1 NAME
 
-Math::Shape::Vector - A 2d vector object in cartesian space
+Math::Shape::Vector - A 2d vector library in cartesian space
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 SYNOPSIS
 
@@ -190,6 +190,30 @@ version 0.05
     $v1->negate;
     $v1->multiply(5);
     $v1->is_equal($v2);
+
+=head1 DESCRIPTION
+
+This module contains 2d vector-based objects intended as base classes for 2d games programming. Most of the objects have collision detection (among other methods). The objects available are:
+
+=over
+
+=item *
+
+L<Math::Shape::Vector> - a 2d vector (this module)
+
+=item *
+
+L<Math::Shape::Line> - an infinite 2d line
+
+=item *
+
+L<Math::Shape::LineSegment> - a finite 2d line (with a start and end)
+
+=item *
+
+L<Math::Shape::Range> - a number range (e.g 1 through 20)
+
+=back
 
 =for HTML <a href="https://travis-ci.org/sillymoose/Math-Shape-Vector"><img src="https://travis-ci.org/sillymoose/Math-Shape-Vector.svg?branch=master"></a> <a href='https://coveralls.io/r/sillymoose/Math-Shape-Vector'><img src='https://coveralls.io/repos/sillymoose/Math-Shape-Vector/badge.png' alt='Coverage Status' /></a>
 
