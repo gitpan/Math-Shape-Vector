@@ -2,7 +2,6 @@ use strict;
 use warnings;
 use Test::More;
 use Test::Exception;
-use Math::Shape::Point 1.05;
 use Math::Trig ':pi';
 
 BEGIN { use_ok 'Math::Shape::Vector', 'import module' };
@@ -21,7 +20,7 @@ ok $v2->add_vector($v), 'add vector';
 is $v2->{x}, 3,          'x is now 3';
 is $v2->{y}, 4,          'y is now 4';
 dies_ok sub { $v->add_vector(1,2) }, 'add vector wrong args';
-dies_ok sub { $v->add_vector( Math::Shape::Point->new(1,2,3) ) }, 'add vector wrong args';
+dies_ok sub { $v->add_vector( {1,2,3} ) }, 'add vector wrong args';
 
 # subtract_vector
 ok my $v3 = Math::Shape::Vector->new(4,2),        'constructor';
@@ -33,7 +32,7 @@ ok $v4->subtract_vector($v3),   'subtract vector';
 is $v4->{x}, -2,                'x is now 3';
 is $v4->{y}, 0,                 'y is now 4';
 dies_ok sub { $v3->subtract_vector(1,2) }, 'subtract vector wrong args';
-dies_ok sub { $v4->subtract_vector( Math::Shape::Point->new(1,2,3) ) }, 'subtract vector wrong args';
+dies_ok sub { $v4->subtract_vector({1, 2}) }, 'subtract vector wrong args';
 
 # is_equal
 ok my $v5 = Math::Shape::Vector->new(4,2);
@@ -45,7 +44,7 @@ is $v6->is_equal($v6), 1;
 is $v6->is_equal($v7), 1;
 is $v7->is_equal($v6), 1;
 dies_ok sub { $v5->is_equal(1,2) }, 'is_equal wrong args';
-dies_ok sub { $v5->subtract_vector( Math::Shape::Point->new(1,2,3) ) }, 'is_equal wrong args';
+dies_ok sub { $v5->subtract_vector( {1,2} ) }, 'is_equal wrong args';
 
 # negate
 ok my $v8 = Math::Shape::Vector->new(1, 1);

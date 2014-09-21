@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Range;
-$Math::Shape::Range::VERSION = '0.06';
+$Math::Shape::Range::VERSION = '0.07';
 use 5.008;
 use Carp;
 use Math::Shape::Utils;
@@ -51,7 +51,7 @@ Math::Shape::Range - a range object which has min and max values
 
 =head1 VERSION
 
-version 0.06
+version 0.07
 
 =head1 METHODS
 

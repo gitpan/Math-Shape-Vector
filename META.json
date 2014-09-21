@@ -39,7 +39,6 @@
       },
       "test" : {
          "requires" : {
-            "Math::Shape::Point" : "1.05",
             "Test::Exception" : "0",
             "Test::More" : "0"
          }
@@ -54,6 +53,6 @@
          "web" : "https://github.com/sillymoose/Math-Shape-Vector"
       }
    },
-   "version" : "0.06"
+   "version" : "0.07"
 }
 

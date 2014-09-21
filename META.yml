@@ -3,7 +3,6 @@ abstract: 'A 2d vector library in cartesian space'
 author:
   - 'David Farrell <sillymoos@cpan.org>'
 build_requires:
-  Math::Shape::Point: '1.05'
   Test::Exception: '0'
   Test::More: '0'
 configure_requires:
@@ -26,4 +25,4 @@ requires:
 resources:
   homepage: https://github.com/sillymoose/Math-Shape-Vector
   repository: https://github.com/sillymoose/Math-Shape-Vector.git
-version: '0.06'
+version: '0.07'

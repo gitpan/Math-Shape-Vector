@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Vector;
-$Math::Shape::Vector::VERSION = '0.06';
+$Math::Shape::Vector::VERSION = '0.07';
 use 5.008;
 use Carp;
 use Math::Shape::Utils;
@@ -177,7 +177,7 @@ Math::Shape::Vector - A 2d vector library in cartesian space
 
 =head1 VERSION
 
-version 0.06
+version 0.07
 
 =head1 SYNOPSIS
 
