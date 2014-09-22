@@ -1,5 +1,6 @@
 requires "Carp" => "0";
 requires "Exporter" => "0";
+requires "List::Util" => "0";
 requires "Math::Trig" => "0";
 requires "base" => "0";
 requires "perl" => "5.008";

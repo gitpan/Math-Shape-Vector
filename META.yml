@@ -17,6 +17,7 @@ name: Math-Shape-Vector
 requires:
   Carp: '0'
   Exporter: '0'
+  List::Util: '0'
   Math::Trig: '0'
   base: '0'
   perl: '5.008'
@@ -25,4 +26,4 @@ requires:
 resources:
   homepage: https://github.com/sillymoose/Math-Shape-Vector
   repository: https://github.com/sillymoose/Math-Shape-Vector.git
-version: '0.07'
+version: '0.08'

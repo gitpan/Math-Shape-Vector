@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Vector;
-$Math::Shape::Vector::VERSION = '0.07';
+$Math::Shape::Vector::VERSION = '0.08';
 use 5.008;
 use Carp;
 use Math::Shape::Utils;
@@ -177,7 +177,7 @@ Math::Shape::Vector - A 2d vector library in cartesian space
 
 =head1 VERSION
 
-version 0.07
+version 0.08
 
 =head1 SYNOPSIS
 
@@ -212,6 +212,18 @@ L<Math::Shape::LineSegment> - a finite 2d line (with a start and end)
 =item *
 
 L<Math::Shape::Range> - a number range (e.g 1 through 20)
+
+=item *
+
+L<Math::Shape::Circle> - a 2d Circle
+
+=item *
+
+L<Math::Shape::Rectangle> - a 2d axis-oriented rectangle
+
+=item *
+
+L<Math::Shape::OrientedRectangle> - a 2d oriented rectangle
 
 =back
 

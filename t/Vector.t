@@ -20,7 +20,7 @@ ok $v2->add_vector($v), 'add vector';
 is $v2->{x}, 3,          'x is now 3';
 is $v2->{y}, 4,          'y is now 4';
 dies_ok sub { $v->add_vector(1,2) }, 'add vector wrong args';
-dies_ok sub { $v->add_vector( {1,2,3} ) }, 'add vector wrong args';
+dies_ok sub { $v->add_vector( {1,2,3,4} ) }, 'add vector wrong args';
 
 # subtract_vector
 ok my $v3 = Math::Shape::Vector->new(4,2),        'constructor';

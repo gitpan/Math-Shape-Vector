@@ -1,5 +1,10 @@
 Change history for Math::Shape::Vector
 
+0.08    2014/09/21
+        -Added Circle class
+        -Added Rectangle class
+        -Added OrientedRectangle class
+
 0.07    2014/09/21
         -Removed test dependency on Math::Shape::Point
 

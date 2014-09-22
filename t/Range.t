@@ -26,5 +26,11 @@ ok my $r5 = Math::Shape::Range->new(11,20), 'constructor';
 is $r3->is_overlapping($r4), 1;
 is $r4->is_overlapping($r5), 1;
 is $r5->is_overlapping($r3), 0;
+
+# get hull
+ok my $hull = $r3->get_hull($r4);
+is $hull->{min}, 1;
+is $hull->{max}, 11;
+
 done_testing();
 
