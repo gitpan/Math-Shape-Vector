@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Vector;
-$Math::Shape::Vector::VERSION = '0.08';
+$Math::Shape::Vector::VERSION = '0.09';
 use 5.008;
 use Carp;
 use Math::Shape::Utils;
@@ -20,26 +20,32 @@ sub new {
 sub add_vector {
     croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
     my ($self, $v2) = @_;
-    $self->{x} += $v2->{x};
-    $self->{y} += $v2->{y};
-    $self;
+
+    Math::Shape::Vector->new(
+        $self->{x} + $v2->{x},
+        $self->{y} + $v2->{y},
+    );
 }
 
 
 sub subtract_vector {
     croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
     my ($self, $v2) = @_;
-    $self->{x} -= $v2->{x};
-    $self->{y} -= $v2->{y};
-    $self;
+
+    Math::Shape::Vector->new(
+        $self->{x} - $v2->{x},
+        $self->{y} - $v2->{y},
+    );
 }
 
 
 sub negate {
     my $self = shift;
-    $self->{x} = - $self->{x};
-    $self->{y} = - $self->{y};
-    $self;
+
+    Math::Shape::Vector->new(
+        - $self->{x},
+        - $self->{y},
+    );
 }
 
 
@@ -54,19 +60,23 @@ sub is_equal {
 sub multiply {
     croak 'incorrect number of args' unless @_ == 2;
     my ($self, $multiplier) = @_;
-    $self->{x} = $self->{x} * $multiplier;
-    $self->{y} = $self->{y} * $multiplier;
-    $self;
+
+    Math::Shape::Vector->new(
+        $self->{x} * $multiplier,
+        $self->{y} * $multiplier,
+    );
 }
 
 
 sub divide {
     croak 'incorrect number of args' unless @_ == 2;
     my ($self, $divisor) = @_;
+
     # avoid division by zero
-    $self->{x} = $divisor ? $self->{x} / $divisor : 0;
-    $self->{y} = $divisor ? $self->{y} / $divisor : 0;
-    $self;
+    Math::Shape::Vector->new(
+        ($divisor ? $self->{x} / $divisor : 0),
+        ($divisor ? $self->{y} / $divisor : 0),
+    );
 }
 
 
@@ -74,19 +84,21 @@ sub rotate {
     croak 'incorrect number of args' unless @_ == 2;
     my ($self, $radians) = @_;
 
-    $self->{x} = $self->{x} * cos($radians) - $self->{y} * sin($radians);
-    $self->{y} = $self->{x} * sin($radians) + $self->{y} * cos($radians);
-    $self;
+    Math::Shape::Vector->new(
+        $self->{x} * cos($radians) - $self->{y} * sin($radians),
+        $self->{x} * sin($radians) + $self->{y} * cos($radians),
+    );
 }
 
 
 sub rotate_90
 {
     my $self = shift;
-    my $x = $self->{x};
-    $self->{x} = - $self->{y};
-    $self->{y} = $x;
-    $self;
+
+    Math::Shape::Vector->new(
+        - $self->{y},
+        $self->{x},
+    );
 }
 
 
@@ -100,8 +112,10 @@ sub dot_product {
 sub length {
     my $self = shift;
     # avoid division by zero for null vectors
-    return 0 unless $self->{x} && $self->{y};
-    sqrt $self->{x} ** 2 + $self->{y} ** 2;
+    my $sum_of_squares = ( $self->{x} || 0 ) ** 2
+                         + ( $self->{y} || 0 ) ** 2;
+    return 0 unless $sum_of_squares;
+    sqrt $sum_of_squares;
 }
 
 
@@ -109,8 +123,8 @@ sub convert_to_unit_vector {
     my $self = shift;
 
     my $length = $self->length;
-    $length > 0 ? $self->divide($length) : 1;
-    $self;
+    $length = 1 unless $length > 0;
+    $self->divide($length)
 }
 
 
@@ -119,13 +133,13 @@ sub project {
     my ($self, $v2) = @_;
 
     my $d = $v2->dot_product($v2);
+
     if ($d > 0) {
         $v2->multiply( $self->dot_product($v2) / $d );
     }
     else {
-        $self = $v2;
+        $v2;
     }
-    $self;
 }
 
 
@@ -133,8 +147,7 @@ sub is_parallel
 {
     croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
     my ($self, $v2) = @_;
-    my $vector_na = Math::Shape::Vector->new($self->{x}, $self->{y});
-    $vector_na->rotate_90;
+    my $vector_na = $self->rotate_90;
     equal_floats(0, $vector_na->dot_product($v2));
 }
 
@@ -157,9 +170,20 @@ sub enclosed_angle
 
 sub collides
 {
-    croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
+    my ($self, $other_obj) = @_;
 
-    $_[0]->{x} == $_[1]->{x} && $_[0]->{y} == $_[1]->{y} ? 1 : 0;
+    if ($other_obj->isa('Math::Shape::Vector'))
+    {
+        $self->{x} == $other_obj->{x} && $self->{y} == $other_obj->{y} ? 1 : 0;
+    }
+    elsif ($other_obj->isa('Math::Shape::Circle'))
+    {
+        $other_obj->collides($self);
+    }
+    else
+    {
+        croak 'collides must be called with a Math::Shape::Vector library object';
+    }
 }
 
 
@@ -177,7 +201,7 @@ Math::Shape::Vector - A 2d vector library in cartesian space
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 SYNOPSIS
 
@@ -239,21 +263,21 @@ Create a new vector. Requires two numerical arguments for the origin and magnitu
 
 =head2 add_vector
 
-Adds a vector to the vector object, updating its x & y values.
+Adds a vector to the vector object, returning a new vector object with the resulting x & y values.
 
-    $vector->add_vector($vector_2);
+    my $new_vector = $vector->add_vector($vector_2);
 
 =head2 subtract_vector
 
-Subtracts a vector from the vector object, updating its x & y values.
+Subtracts a vector from the vector object, returning a new vector object with the resulting x & y values.
 
-    $vector->subtract_vector($vector_2);
+    my $new_vector = $vector->subtract_vector($vector_2);
 
 =head2 negate
 
-Negates the vector's values e.g. (1,3) becomes (-1, -3).
+Returns a new vector with negated values values e.g. (1,3) becomes (-1, -3).
 
-    $vector->negate();
+    my $new_vector = $vector->negate();
 
 =head2 is_equal
 
@@ -263,27 +287,29 @@ Compares a vector to the vector object, returning 1 if they are the same or 0 if
 
 =head2 multiply
 
-Multiplies the vector's x and y values by a number.
+Returns a new vector object with the x and y values multiplied by a number.
 
-    $vector->multiply(3);
+    my $new_vector = $vector->multiply(3);
 
 =head2 divide
 
-Divides the vector's x and y values by a number.
+Returns a new vector object with the x and y values divided by a number.
 
-    $vector->divide(2);
+    my $new_vector = $vector->divide(2);
 
 =head2 rotate
 
-Rotates the vector in radians.
+Returns a new vector with the x and y values rotated in radians.
 
     use Math::Trig ':pi';
 
-    $vector->rotate(pi);
+    my $new_vector = $vector->rotate(pi);
 
 =head2 rotate_90
 
-Rotates the vector 90 degrees anti-clockwise
+Returns a new vector object with the x and y values rotated 90 degrees anti-clockwise.
+
+    my $new_vector = $vector->rotate_90;
 
 =head2 dot_product
 
@@ -293,19 +319,19 @@ Returns the dot product. Requires another Math::Shape::Vector object as an argum
 
 Returns the vector length.
 
-    $vector->length;
+    my $length = $vector->length;
 
 =head2 convert_to_unit_vector
 
-Converts the vector to have a length of 1.
+Returns a new vector object with a length of 1.
 
-    $vector->convert_to_unit_vector;
+    my $unit_vector = $vector->convert_to_unit_vector;
 
 =head2 project
 
-Maps the vector to another vector. Requires a Math::Shape::Vector object as an argument.
+Maps the vector to another vector, returning a new vector object. Requires a Math::Shape::Vector object as an argument.
 
-    $vector->project($vector_2);
+    my $new_vector = $vector->project($vector_2);
 
 =head2 is_parallel
 
@@ -327,12 +353,15 @@ Returns the enclosed angle of another vector. Requires a Math::Shape::Vector obj
 
 =head2 collides
 
-Boolean method that returns 1 if the vector collides with another vector or 0 if not. Requires a Math::Shape::Vector object as an argument
+Boolean method that returns 1 if the vector collides with another L<Math::Shape::Vector> library object or not or 0 if not. Requires a Math::Shape::Vectorlibrary object as an argument
 
     my $v1 = Math::Shape::Vector(4, 2);
     my $v2 = Math::Shape::Vector(4, 2);
 
     $v1->collides($v2); # 1
+
+    my $circle = Math::Shape::Circle->new(0, 0, 3); # x, y and radius
+    $v1->collides($circle); # 0
 
 =head1 REPOSITORY
 

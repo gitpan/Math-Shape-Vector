@@ -1,5 +1,9 @@
 Change history for Math::Shape::Vector
 
+0.09    2014/09/23
+        -Added circle-vector, circle-line, circle-linesegment collision detection
+        -Made all object methods immutable
+
 0.08    2014/09/21
         -Added Circle class
         -Added Rectangle class

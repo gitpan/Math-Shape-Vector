@@ -10,14 +10,14 @@ is $r1->{min}, 54;
 is $r1->{max}, 89.05;
 
 # sort
-ok $r1->sort, 'values should not change';
-is $r1->{min}, 54;
-is $r1->{max}, 89.05;
+ok my $r0 = $r1->sort, 'values should not change';
+is $r0->{min}, 54;
+is $r0->{max}, 89.05;
 
 ok my $r2 = Math::Shape::Range->new(71.5, 71.05), 'constructor';
-ok $r2->sort, 'values should swap';
-is $r2->{min}, 71.05;
-is $r2->{max}, 71.5;
+ok $r0 = $r2->sort, 'values should swap';
+is $r0->{min}, 71.05;
+is $r0->{max}, 71.5;
 
 # is_overlapping
 ok my $r3 = Math::Shape::Range->new(1, 10), 'constructor';
@@ -33,4 +33,3 @@ is $hull->{min}, 1;
 is $hull->{max}, 11;
 
 done_testing();
-

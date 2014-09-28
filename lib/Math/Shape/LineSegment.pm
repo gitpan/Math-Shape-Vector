@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::LineSegment;
-$Math::Shape::LineSegment::VERSION = '0.08';
+$Math::Shape::LineSegment::VERSION = '0.09';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -24,11 +24,12 @@ sub project
 {
     croak 'project not called with argument of type Math::Shape::Vector' unless $_[1]->isa('Math::Shape::Vector');
     my ($self, $vector) = @_;
-    my $unit_vector = Math::Shape::Vector->new($vector->{x}, $vector->{y});
-    $unit_vector->convert_to_unit_vector;
+    my $unit_vector = $vector->convert_to_unit_vector;
+
     my $range = Math::Shape::Range->new(
         $unit_vector->dot_product($self->{start}),
-        $unit_vector->dot_product($self->{end}));
+        $unit_vector->dot_product($self->{end}),
+    );
 
     $range->sort;
 }
@@ -37,23 +38,21 @@ sub project
 sub collides
 {
     croak 'project not called with argument of type Math::Shape::LineSegment' unless $_[1]->isa('Math::Shape::LineSegment');
-    my ($self, $other_segment) = @_;
+    my ($self, $other_obj) = @_;
 
-    my $vector_a = Math::Shape::Vector->new($self->{end}->{x}, $self->{end}->{y});
-    $vector_a->subtract_vector($self->{start});
+    my $vector_a = $self->{end}->subtract_vector($self->{start});
     my $axis_a = Math::Shape::Line->new(
         $self->{start}->{x},
         $self->{start}->{y},
         $vector_a->{x},
         $vector_a->{y});
 
-    return 0 if $axis_a->on_one_side($other_segment);
+    return 0 if $axis_a->on_one_side($other_obj);
 
-    my $vector_b = Math::Shape::Vector->new($other_segment->{end}->{x},$other_segment->{end}->{y});
-    $vector_b->subtract_vector($other_segment->{start});
+    my $vector_b = $other_obj->{end}->subtract_vector($other_obj->{start});
     my $axis_b = Math::Shape::Line->new(
-        $other_segment->{start}->{x},
-        $other_segment->{start}->{y},
+        $other_obj->{start}->{x},
+        $other_obj->{start}->{y},
         $vector_b->{x},
         $vector_b->{y});
 
@@ -62,7 +61,7 @@ sub collides
     if ($axis_a->{direction}->is_parallel($axis_b->{direction}))
     {
         my $range_a = $self->project($axis_a->{direction});
-        my $range_b = $other_segment->project($axis_a->{direction});
+        my $range_b = $other_obj->project($axis_a->{direction});
         return $range_a->is_overlapping($range_b);
     }
 
@@ -83,7 +82,7 @@ Math::Shape::LineSegment - a 2d vector line segment; a line with start and end p
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 METHODS
 

@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Rectangle;
-$Math::Shape::Rectangle::VERSION = '0.08';
+$Math::Shape::Rectangle::VERSION = '0.09';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -21,16 +21,16 @@ sub new {
 
 sub collides {
     croak 'collides must be called with a Math::Shape::Rectangle object' unless $_[1]->isa('Math::Shape::Rectangle');
-    my ($self, $other_rectangle) = @_;
+    my ($self, $other_obj) = @_;
 
     my $a_left = $self->{origin}->{x};
     my $a_right = $a_left + $self->{size}->{x};
-    my $b_left = $other_rectangle->{origin}->{x};
-    my $b_right = $b_left + $other_rectangle->{size}->{x};
+    my $b_left = $other_obj->{origin}->{x};
+    my $b_right = $b_left + $other_obj->{size}->{x};
     my $a_bottom = $self->{origin}->{y};
     my $a_top = $a_bottom + $self->{size}->{y};
-    my $b_bottom = $other_rectangle->{origin}->{y};
-    my $b_top = $b_bottom + $other_rectangle->{size}->{y};
+    my $b_bottom = $other_obj->{origin}->{y};
+    my $b_top = $b_bottom + $other_obj->{size}->{y};
 
     overlap($a_left, $a_right, $b_left, $b_right)
     && overlap($a_bottom, $a_top, $b_bottom, $b_top);
@@ -50,7 +50,7 @@ Math::Shape::Rectangle - an axis-aligned 2d rectangle
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 METHODS
 

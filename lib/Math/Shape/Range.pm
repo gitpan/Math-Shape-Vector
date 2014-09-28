@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Range;
-$Math::Shape::Range::VERSION = '0.08';
+$Math::Shape::Range::VERSION = '0.09';
 use 5.008;
 use Carp;
 use Math::Shape::Utils;
@@ -24,11 +24,14 @@ sub sort
 
     if ($self->{min} > $self->{max})
     {
-        my $new_max = $self->{min};
-        $self->{min} = $self->{max};
-        $self->{max} = $new_max;
+        Math::Shape::Range->new(
+            $self->{max},
+            $self->{min},
+        );
     }
-    return $self;
+    else {
+        $self;
+    }
 }
 
 
@@ -65,7 +68,7 @@ Math::Shape::Range - a range object which has min and max values
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 METHODS
 
@@ -77,9 +80,9 @@ Constructor, requires 2 values: minimum and maximum floating point numbers.
 
 =head2 sort
 
-Sorts the range so that the min is lower than the max attributes.
+Returns a new range object with the min and max attributes sorted.
 
-    $range->sort;
+    my $sorted_range = $range->sort;
 
 =head2 is_overlapping
 
