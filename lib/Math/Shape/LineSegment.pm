@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::LineSegment;
-$Math::Shape::LineSegment::VERSION = '0.09';
+$Math::Shape::LineSegment::VERSION = '0.1';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -37,35 +37,61 @@ sub project
 
 sub collides
 {
-    croak 'project not called with argument of type Math::Shape::LineSegment' unless $_[1]->isa('Math::Shape::LineSegment');
     my ($self, $other_obj) = @_;
 
-    my $vector_a = $self->{end}->subtract_vector($self->{start});
-    my $axis_a = Math::Shape::Line->new(
-        $self->{start}->{x},
-        $self->{start}->{y},
-        $vector_a->{x},
-        $vector_a->{y});
-
-    return 0 if $axis_a->on_one_side($other_obj);
-
-    my $vector_b = $other_obj->{end}->subtract_vector($other_obj->{start});
-    my $axis_b = Math::Shape::Line->new(
-        $other_obj->{start}->{x},
-        $other_obj->{start}->{y},
-        $vector_b->{x},
-        $vector_b->{y});
-
-    return 0 if $axis_b->on_one_side($self);
-
-    if ($axis_a->{direction}->is_parallel($axis_b->{direction}))
+    if ($other_obj->isa('Math::Shape::LineSegment'))
     {
-        my $range_a = $self->project($axis_a->{direction});
-        my $range_b = $other_obj->project($axis_a->{direction});
-        return $range_a->is_overlapping($range_b);
-    }
+        my $vector_a = $self->{end}->subtract_vector($self->{start});
+        my $axis_a = Math::Shape::Line->new(
+            $self->{start}->{x},
+            $self->{start}->{y},
+            $vector_a->{x},
+            $vector_a->{y});
 
-    1;
+        return 0 if $axis_a->on_one_side($other_obj);
+
+        my $vector_b = $other_obj->{end}->subtract_vector($other_obj->{start});
+        my $axis_b = Math::Shape::Line->new(
+            $other_obj->{start}->{x},
+            $other_obj->{start}->{y},
+            $vector_b->{x},
+            $vector_b->{y});
+
+        return 0 if $axis_b->on_one_side($self);
+
+        if ($axis_a->{direction}->is_parallel($axis_b->{direction}))
+        {
+            my $range_a = $self->project($axis_a->{direction});
+            my $range_b = $other_obj->project($axis_a->{direction});
+            return $range_a->is_overlapping($range_b);
+        }
+
+        1;
+    }
+    elsif ($other_obj->isa('Math::Shape::Vector'))
+    {
+        $other_obj->collides($self);
+    }
+    elsif ($other_obj->isa('Math::Shape::Line'))
+    {
+        $other_obj->collides($self);
+    }
+    elsif ($other_obj->isa('Math::Shape::OrientedRectangle'))
+    {
+        $other_obj->collides($self);
+    }
+    elsif ($other_obj->isa('Math::Shape::Rectangle'))
+    {
+        $other_obj->collides($self);
+    }
+    elsif ($other_obj->isa('Math::Shape::Circle'))
+    {
+        $other_obj->collides($self);
+    }
+    else
+    {
+        croak 'collides must be called with a Math::Shape::Vector library object';
+    }
 }
 
 1;
@@ -82,7 +108,7 @@ Math::Shape::LineSegment - a 2d vector line segment; a line with start and end p
 
 =head1 VERSION
 
-version 0.09
+version 0.1
 
 =head1 METHODS
 
@@ -101,7 +127,7 @@ Projects the segment onto a vector and returns a L<Math::Shape::Range> object. R
 
 =head2 collides
 
-Boolean method that returns 1 if the LineSegment object collides with another LineSegment object.
+Boolean method that returns 1 if the vector collides with another L<Math::Shape::Vector> library object or not or 0 if not. Requires a Math::Shape::Vectorlibrary object as an argument
 
 =head1 AUTHOR
 

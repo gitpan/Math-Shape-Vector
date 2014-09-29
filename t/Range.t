@@ -28,7 +28,7 @@ is $r4->is_overlapping($r5), 1;
 is $r5->is_overlapping($r3), 0;
 
 # get hull
-ok my $hull = $r3->get_hull($r4);
+ok my $hull = $r3->hull($r4);
 is $hull->{min}, 1;
 is $hull->{max}, 11;
 

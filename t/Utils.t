@@ -42,4 +42,10 @@ is maximum(2,1),    2;
 is maximum(1,2),    2;
 is maximum(-1,2),   2;
 is maximum(-1,-2), -1;
+
+#clamp_on_range
+is clamp_on_range(1, 0, 10), 1;
+is clamp_on_range(11, 0, 10), 10;
+is clamp_on_range(-6, 0, 10), 0;
+
 done_testing();

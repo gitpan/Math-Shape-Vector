@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Range;
-$Math::Shape::Range::VERSION = '0.09';
+$Math::Shape::Range::VERSION = '0.1';
 use 5.008;
 use Carp;
 use Math::Shape::Utils;
@@ -42,7 +42,7 @@ sub is_overlapping
 }
 
 
-sub get_hull
+sub hull
 {
     croak 'Must provide another Math::Shape::Range object as argument' unless $_[1]->isa('Math::Shape::Range');
     my ($self, $other_range) = @_;
@@ -68,7 +68,7 @@ Math::Shape::Range - a range object which has min and max values
 
 =head1 VERSION
 
-version 0.09
+version 0.1
 
 =head1 METHODS
 
@@ -94,7 +94,7 @@ Boolean method which returns 1 if the range object overlaps with another range, 
     $range1->is_overlapping($range2); # 0
     $range2->is_overlapping($range3); # 1
 
-=head2 get_hull
+=head2 hull
 
 Returns a new Range object of the hull of two ranges. Requires another Math::Shape::Range object as an argument.
 

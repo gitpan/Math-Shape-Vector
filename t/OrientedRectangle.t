@@ -28,5 +28,12 @@ is $rect1->collides($rect2), 1;
 is $rect2->collides($rect3), 0;
 is $rect3->collides($rect4), 1;
 
+# collides LineSegment
+use Math::Shape::LineSegment;
+my $ls1 = Math::Shape::LineSegment->new(0, 0, 10, 0);
+my $ls2 = Math::Shape::LineSegment->new(7, 1, 5, 13);
+is $rect2->collides($ls1), 1;
+is $rect2->collides($ls2), 0;
+
 done_testing();
 

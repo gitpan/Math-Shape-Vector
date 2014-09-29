@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Line;
-$Math::Shape::Line::VERSION = '0.09';
+$Math::Shape::Line::VERSION = '0.1';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -50,15 +50,42 @@ sub on_one_side
 
 sub collides
 {
-    croak 'must pass a line object' unless $_[1]->isa('Math::Shape::Line');
+    my ($self, $other_obj) = @_;
 
-    if($_[0]->{direction}->is_parallel($_[1]->{direction}))
+    if ($other_obj->isa('Math::Shape::Line'))
     {
-        $_[0]->is_equivalent($_[1]);
+        if($self->{direction}->is_parallel($other_obj->{direction}))
+        {
+            $self->is_equivalent($other_obj);
+        }
+        else
+        {
+            1;
+        }
+    }
+    elsif ($other_obj->isa('Math::Shape::LineSegment'))
+    {
+        $self->on_one_side($other_obj) ? 0 : 1;
+    }
+    elsif ($other_obj->isa('Math::Shape::OrientedRectangle'))
+    {
+        $other_obj->collides($self);
+    }
+    elsif ($other_obj->isa('Math::Shape::Circle'))
+    {
+        $other_obj->collides($self);
+    }
+    elsif ($other_obj->isa('Math::Shape::Rectangle'))
+    {
+        $other_obj->collides($self);
+    }
+    elsif ($other_obj->isa('Math::Shape::Vector'))
+    {
+        $other_obj->collides($self);
     }
     else
     {
-        1;
+        croak 'collides must be called with a Math::Shape::Vector library object';
     }
 }
 
@@ -78,7 +105,7 @@ Math::Shape::Line - a 2d vector-based infinite line
 
 =head1 VERSION
 
-version 0.09
+version 0.1
 
 =head1 METHODS
 
@@ -103,7 +130,7 @@ Boolean method that returns 1 if both points of a LineSegment object are on the 
 
 =head2 collides
 
-Boolean method that returns 1 if the line collides with another line or 0 if not. Requires a Math::Shape::Line object as an argument
+Boolean method that returns 1 if the line collides with another L<Math::Shape::Vector> library object or not or 0 if not. Requires a Math::Shape::Vectorlibrary object as an argument
 
     my $l1 = Math::Shape::Line(4, 2);
     my $l2 = Math::Shape::Line(4, 2);

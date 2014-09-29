@@ -33,5 +33,19 @@ is $line2->collides($line3), 1;
 is $line3->collides($line4), 1;
 is $line4->collides($line5), 1;
 
+# collides LineSegment
+use Math::Shape::LineSegment;
+my $ls1 = Math::Shape::LineSegment->new(1, 1, 4, 4);
+my $ls2 = Math::Shape::LineSegment->new(1, 2, 1, 700);
+is $line1->collides($ls1), 1;
+is $line1->collides($ls2), 0;
+
+# collides OrientedRectangle
+use Math::Shape::OrientedRectangle;
+my $or1 = Math::Shape::OrientedRectangle->new(1, 2, 4, 6, 0);
+my $or2 = Math::Shape::OrientedRectangle->new(1, 5, 1, 2, 0);
+is $or1->collides($line1), 1;
+is $or2->collides($line1), 0;
+
 done_testing();
 

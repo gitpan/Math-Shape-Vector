@@ -110,7 +110,13 @@ ok my $v26 = Math::Shape::Vector->new(-2, 8);
 is $v24->project($v25)->{x}, 0;
 is $v25->project($v26)->{x}, -2;
 
-# collides
+# rotate_90
+ok my $v30 = Math::Shape::Vector->new(3, 8);
+ok $v0 = $v30->rotate_90;
+is $v0->{x}, -8;
+is $v0->{y}, 3;
+
+# collides vector
 ok my $v27 = Math::Shape::Vector->new(8, 2);
 ok my $v28 = Math::Shape::Vector->new(-2, 8);
 ok my $v29 = Math::Shape::Vector->new(-2, 8);
@@ -118,11 +124,21 @@ is $v27->collides($v28), 0;
 is $v28->collides($v29), 1;
 is $v29->collides($v27), 0;
 
+# collides LineSegment
+use Math::Shape::LineSegment;
+my $ls1 = Math::Shape::LineSegment->new(8, 2, 20, 4);
+my $ls2 = Math::Shape::LineSegment->new(2, 2, 8, 3);
+is $v27->collides($ls1), 1;
+is $v27->collides($ls2), 0;
+
+# collides OrientedRectangle
+use Math::Shape::OrientedRectangle;
+my $or1 = Math::Shape::OrientedRectangle->new(5, 2, 4, 4, 0);
+my $or2 = Math::Shape::OrientedRectangle->new(5, 2, 2, 4, 0);
+is $v27->collides($or1), 1;
+is $v27->collides($or2), 0;
+
 
 # enclosed angle
-# rotate_90
-ok my $v30 = Math::Shape::Vector->new(3, 8);
-ok $v0 = $v30->rotate_90;
-is $v0->{x}, -8;
-is $v0->{y}, 3;
+
 done_testing();
