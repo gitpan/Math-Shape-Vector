@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Line;
-$Math::Shape::Line::VERSION = '0.1';
+$Math::Shape::Line::VERSION = '0.11';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -105,7 +105,7 @@ Math::Shape::Line - a 2d vector-based infinite line
 
 =head1 VERSION
 
-version 0.1
+version 0.11
 
 =head1 METHODS
 

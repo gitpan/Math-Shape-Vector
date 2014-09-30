@@ -1,5 +1,9 @@
 Change history for Math::Shape::Vector
 
+0.11    2014/09/29
+        -Fixed Oriented Rectangle - Line Segment collision
+        -Added tests for all collision combinations.
+
 0.1     2014/09/28
         -Added circle-rectangle collision detection
         -Added rectangle-vector, rectangle-line, rectangle-LineSegment collision detection

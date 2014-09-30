@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Circle;
-$Math::Shape::Circle::VERSION = '0.1';
+$Math::Shape::Circle::VERSION = '0.11';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -98,7 +98,7 @@ Math::Shape::Circle - a 2d circle
 
 =head1 VERSION
 
-version 0.1
+version 0.11
 
 =head1 METHODS
 

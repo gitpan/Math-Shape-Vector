@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::OrientedRectangle;
-$Math::Shape::OrientedRectangle::VERSION = '0.1';
+$Math::Shape::OrientedRectangle::VERSION = '0.11';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -217,7 +217,7 @@ sub collides {
     }
     elsif ($other_obj->isa('Math::Shape::LineSegment'))
     {
-        my $size = $self->{center}->multiply(2);
+        my $size = $self->{half_extend}->multiply(2);
         my $lr = Math::Shape::Rectangle->new(
             0,
             0,
@@ -271,7 +271,7 @@ Math::Shape::OrientedRectangle - a 2d oriented rectangle
 
 =head1 VERSION
 
-version 0.1
+version 0.11
 
 =head1 METHODS
 
