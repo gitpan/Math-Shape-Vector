@@ -138,6 +138,14 @@ my $or2 = Math::Shape::OrientedRectangle->new(5, 2, 2, 4, 0);
 is $v27->collides($or1), 1;
 is $v27->collides($or2), 0;
 
+# distance
+is  $v->distance($v6), 1;
+is $v6->distance($v7), 0;
+is $v7->distance($v6), 0;
+
+use Math::Shape::Circle;
+my $c = Math::Shape::Circle->new(1, 10, 3);
+is $v6->distance($c), 6;
 
 # enclosed angle
 

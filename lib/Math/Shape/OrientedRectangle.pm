@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::OrientedRectangle;
-$Math::Shape::OrientedRectangle::VERSION = '0.11';
+$Math::Shape::OrientedRectangle::VERSION = '0.12';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -9,6 +9,7 @@ use Math::Shape::Utils;
 use Math::Shape::Line;
 use Math::Shape::LineSegment;
 use Math::Shape::Rectangle;
+use Math::Shape::Circle;
 
 # ABSTRACT: a 2d oriented rectangle
 
@@ -156,6 +157,18 @@ sub hull
 }
 
 
+sub circle_hull
+{
+    my $self = shift;
+
+    Math::Shape::Circle->new(
+        $self->{center}->{x},
+        $self->{center}->{y},
+        $self->{half_extend}->length,
+    );
+}
+
+
 sub collides {
     my ($self, $other_obj) = @_;
 
@@ -271,7 +284,7 @@ Math::Shape::OrientedRectangle - a 2d oriented rectangle
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 METHODS
 
@@ -301,6 +314,10 @@ Returns a L<Math::Shape::Vector> object representing a corner of the rectangle. 
 =head2 hull
 
 Returns a L<Math::Shape::Rectangle> object representing the hull of the oriented rectangle.
+
+=head2 circle_hull
+
+Returns a new L<Math::Shape::Circle> object representing the hull of the oriented rectangle.
 
 =head2 collides
 

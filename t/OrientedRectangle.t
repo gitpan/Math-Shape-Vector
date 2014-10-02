@@ -35,5 +35,10 @@ my $ls2 = Math::Shape::LineSegment->new(7, 1, 5, 13);
 is $rect1->collides($ls1), 1;
 is $rect1->collides($ls2), 0;
 
+# get circle hull
+ok my $circle = $rect1->circle_hull;
+is $rect1->{center}->{x}, $circle->{center}->{x};
+is $rect1->{center}->{y}, $circle->{center}->{y};
+
 done_testing();
 

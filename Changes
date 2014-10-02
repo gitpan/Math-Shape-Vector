@@ -1,5 +1,9 @@
 Change history for Math::Shape::Vector
 
+0.12    2014/10/01
+        -Added vector distance() method for vector, circle and oriented rectangle objects
+        -Added OrientedRectangle circle_hull() to return a circular hull shape of the object
+
 0.11    2014/09/29
         -Fixed Oriented Rectangle - Line Segment collision
         -Added tests for all collision combinations.
