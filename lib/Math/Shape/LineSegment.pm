@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::LineSegment;
-$Math::Shape::LineSegment::VERSION = '0.12';
+$Math::Shape::LineSegment::VERSION = '0.13';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -108,7 +108,7 @@ Math::Shape::LineSegment - a 2d vector line segment; a line with start and end p
 
 =head1 VERSION
 
-version 0.12
+version 0.13
 
 =head1 METHODS
 

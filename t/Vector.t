@@ -148,5 +148,13 @@ my $c = Math::Shape::Circle->new(1, 10, 3);
 is $v6->distance($c), 6;
 
 # enclosed angle
+my $v31 = Math::Shape::Vector->new(8, 2);
+my $v32 = Math::Shape::Vector->new(-2,8);
+my $v33 = Math::Shape::Vector->new(-8,-2);
+my $v34 = Math::Shape::Vector->new(2,-8);
+is $v31->enclosed_angle($v32), pip2;
+is $v31->enclosed_angle($v33), pi;
+is $v31->enclosed_angle($v34), pip2;
+is $v31->enclosed_angle($v34), pip2;
 
 done_testing();

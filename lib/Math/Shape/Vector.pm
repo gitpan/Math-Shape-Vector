@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Vector;
-$Math::Shape::Vector::VERSION = '0.12';
+$Math::Shape::Vector::VERSION = '0.13';
 use 5.008;
 use Carp;
 use Math::Shape::Utils;
@@ -112,8 +112,8 @@ sub dot_product {
 sub length {
     my $self = shift;
     # avoid division by zero for null vectors
-    my $sum_of_squares = ( $self->{x} || 0 ) ** 2
-                         + ( $self->{y} || 0 ) ** 2;
+    my $sum_of_squares = $self->{x} ** 2 + $self->{y} ** 2;
+
     return 0 unless $sum_of_squares;
     sqrt $sum_of_squares;
 }
@@ -123,8 +123,12 @@ sub convert_to_unit_vector {
     my $self = shift;
 
     my $length = $self->length;
-    $length = 1 unless $length > 0;
-    $self->divide($length)
+
+    # if the vector length is zero (or lower?) return self
+    return $self if $length < 0;
+
+    # else return unit vector
+    $self->divide($length);
 }
 
 
@@ -157,11 +161,8 @@ sub enclosed_angle
     croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
     my ($self, $v2) = @_;
 
-    my $ua = $self;
-    $ua->unit_vector;
-
-    my $ub = $v2;
-    $ub->unit_vector;
+    my $ua = $self->convert_to_unit_vector;
+    my $ub = $v2->convert_to_unit_vector;
 
     acos( $ua->dot_product($ub) );
 }
@@ -256,7 +257,7 @@ Math::Shape::Vector - A 2d vector library in cartesian space
 
 =head1 VERSION
 
-version 0.12
+version 0.13
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,8 @@
 Change history for Math::Shape::Vector
 
+0.13    2014/10/11
+        -Fixed vector enclosed_angle() and convert_to_unit_vector()
+
 0.12    2014/10/01
         -Added vector distance() method for vector, circle and oriented rectangle objects
         -Added OrientedRectangle circle_hull() to return a circular hull shape of the object
