@@ -157,4 +157,29 @@ is $v31->enclosed_angle($v33), pi;
 is $v31->enclosed_angle($v34), pip2;
 is $v31->enclosed_angle($v34), pip2;
 
+# radians
+my $v35 = Math::Shape::Vector->new(0,0);
+my $v36 = Math::Shape::Vector->new(1,1);
+my $v37 = Math::Shape::Vector->new(1,0);
+my $v38 = Math::Shape::Vector->new(0,-1);
+my $v39 = Math::Shape::Vector->new(-1,-1);
+my $v40 = Math::Shape::Vector->new(-1,0);
+is $v35->radians, 0;
+is $v36->radians, pip4;
+is $v37->radians, pip2;
+is $v38->radians, pi;
+is $v39->radians, pi + pip4;
+is $v40->radians, pi + pip2;
+
+# header_vector
+my $v41 = Math::Shape::Vector->new(0,0);
+my $v42 = Math::Shape::Vector->new(10,0);
+my $v43 = Math::Shape::Vector->new(-2,-2);
+my $v44 = Math::Shape::Vector->new(0,-3);
+my $v45 = Math::Shape::Vector->new(-100,-200);
+is $v41->header_vector($v42)->{x}, 1;
+is $v41->header_vector($v43)->{y}, -0.707106781186547;
+is $v41->header_vector($v44)->{x}, 0;
+is $v41->header_vector($v45)->{y}, -0.894427190999916;
+
 done_testing();

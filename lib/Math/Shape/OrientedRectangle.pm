@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::OrientedRectangle;
-$Math::Shape::OrientedRectangle::VERSION = '0.13';
+$Math::Shape::OrientedRectangle::VERSION = '0.14';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -284,7 +284,7 @@ Math::Shape::OrientedRectangle - a 2d oriented rectangle
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 METHODS
 

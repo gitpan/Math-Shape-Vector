@@ -1,11 +1,11 @@
 use strict;
 use warnings;
 package Math::Shape::Vector;
-$Math::Shape::Vector::VERSION = '0.13';
+$Math::Shape::Vector::VERSION = '0.14';
 use 5.008;
 use Carp;
 use Math::Shape::Utils;
-use Math::Trig;
+use Math::Trig qw/acos :pi/;
 
 # ABSTRACT: A 2d vector library in cartesian space
 
@@ -168,6 +168,20 @@ sub enclosed_angle
 }
 
 
+sub radians
+{
+    my $radians = atan2 $_[0]->{x}, $_[0]->{y};
+    # if less than zero
+    $radians < 0 ? pi2 + $radians : $radians;
+}
+
+
+sub header_vector
+{
+    croak 'must pass a vector object' unless $_[1]->isa('Math::Shape::Vector');
+    $_[1]->subtract_vector($_[0])->convert_to_unit_vector;
+}
+
 
 sub collides
 {
@@ -257,7 +271,7 @@ Math::Shape::Vector - A 2d vector library in cartesian space
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 SYNOPSIS
 
@@ -273,13 +287,13 @@ version 0.13
 
 =head1 DESCRIPTION
 
-This module contains 2d vector-based objects intended as base classes for 2d games programming. Most of the objects have collision detection (among other methods). The objects available are:
+This module contains 2d vector-based objects intended as base classes for 2d games programming. Most of the objects have collision detection (among other methods). All objects are immutable in so far as their methods return new objects everytime. The objects available are:
 
 =over
 
 =item *
 
-L<Math::Shape::Vector> - a 2d vector (this module)
+L<Math::Shape::Vector> - a 2d vector (this package)
 
 =item *
 
@@ -377,9 +391,14 @@ Returns the vector length.
 
     my $length = $vector->length;
 
+Useful if you want to calculate the distance between two vectors:
+
+    my $vector_c = $vector_a->subtract_vector($vector_b);
+    my $distance_a_to_b = $vector_c->length;
+
 =head2 convert_to_unit_vector
 
-Returns a new vector object with a length of 1.
+Returns a new vector object with a length of 1 (aka a normalized vector).
 
     my $unit_vector = $vector->convert_to_unit_vector;
 
@@ -406,6 +425,19 @@ Returns the enclosed angle of another vector. Requires a Math::Shape::Vector obj
 
     my $v2 = Math::Shape::Vector(4, 2);
     my $enclosed_angle = $v->enclosed_angle($v2);
+
+=head2 radians
+
+Returns the angle of the vector expressed in radians (0 - 2 pi).
+
+    $vector->radians;
+
+=head2 header_vector
+
+Returns a unit (normalized) vector representing the direction towards another vector. This header_vector can be converted into radians using the C<radians> method. Requires an L<Math::Shape::Vector> object as an argument.
+
+    my $header_vector = $vector_a->header_vector($vector_b);
+    my $radians_a_to_b = $header_vector->radians;
 
 =head2 collides
 

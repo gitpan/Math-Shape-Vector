@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Utils;
-$Math::Shape::Utils::VERSION = '0.13';
+$Math::Shape::Utils::VERSION = '0.14';
 use Math::Trig ':pi';
 use Carp 'croak';
 
@@ -79,7 +79,7 @@ Math::Shape::Utils - Utility methods used by the Math::Shape::Vector module
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 AUTHOR
 

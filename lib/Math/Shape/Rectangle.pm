@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Math::Shape::Rectangle;
-$Math::Shape::Rectangle::VERSION = '0.13';
+$Math::Shape::Rectangle::VERSION = '0.14';
 use 5.008;
 use Carp;
 use Math::Shape::Vector;
@@ -264,7 +264,7 @@ Math::Shape::Rectangle - an axis-aligned 2d rectangle
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 METHODS
 
